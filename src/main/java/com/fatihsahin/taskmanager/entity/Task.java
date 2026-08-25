@@ -16,13 +16,18 @@ import java.time.LocalDateTime;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(name = "title",length = 100)
     private String title;
-    @Column(name = "description",length = 100)
+    @Column(name = "description",length = 500)
     private String description;
     @Column(name = "complated")
     private boolean completed;
-    @Column(name = "created")
-    private LocalDateTime created;
+    @Column(name = "created_at",nullable = false,updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist//Veritabanına kaydetmeden hemen önce çalışır.
+    protected void onCreate() {//oluşturma işleminde oluşturulma tarihini localdatetime.now a eşitliyoruz.
+        this.createdAt = LocalDateTime.now();
+    }
 }
